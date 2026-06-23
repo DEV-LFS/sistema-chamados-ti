@@ -1,61 +1,92 @@
-import json
+import sqlite3
 from pathlib import Path
 
 
-ARQUIVO_CHAMADOS = Path("chamados.json")
+CAMINHO_BANCO = Path(__file__).resolve().parent / "chamados.db"
 
 
-def carregar_chamados():
-    if not ARQUIVO_CHAMADOS.exists():
-        return []
+def conectar_banco():
+    conexao = sqlite3.connect(CAMINHO_BANCO)
 
-    try:
-        with open(ARQUIVO_CHAMADOS, "r", encoding="utf-8") as arquivo:
-            return json.load(arquivo)
+    # Permite acessar as colunas pelo nome.
+    conexao.row_factory = sqlite3.Row
 
-    except json.JSONDecodeError:
-        print("Aviso: o arquivo de chamados está corrompido.")
-        return []
+    return conexao
 
 
-def salvar_chamados():
-    with open(ARQUIVO_CHAMADOS, "w", encoding="utf-8") as arquivo:
-        json.dump(
-            chamados,
-            arquivo,
-            ensure_ascii=False,
-            indent=4
+def criar_tabela():
+    with conectar_banco() as conexao:
+        conexao.execute(
+            """
+            CREATE TABLE IF NOT EXISTS chamados (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                titulo TEXT NOT NULL,
+                descricao TEXT NOT NULL,
+                categoria TEXT NOT NULL,
+                prioridade TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'Aberto',
+                data_criacao TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """
         )
-
-
-chamados = carregar_chamados()
 
 
 def criar_chamado():
     print("\n--- ABRIR NOVO CHAMADO ---")
 
-    titulo = input("Título do problema: ")
-    descricao = input("Descrição do problema: ")
-    categoria = input("Categoria: ")
-    prioridade = input("Prioridade (Baixa, Média ou Alta): ")
+    titulo = input("Título do problema: ").strip()
+    descricao = input("Descrição do problema: ").strip()
+    categoria = input("Categoria: ").strip()
+    prioridade = input("Prioridade (Baixa, Média ou Alta): ").strip()
 
-    chamado = {
-        "id": len(chamados) + 1,
-        "titulo": titulo,
-        "descricao": descricao,
-        "categoria": categoria,
-        "prioridade": prioridade,
-        "status": "Aberto"
-    }
+    if not titulo or not descricao or not categoria or not prioridade:
+        print("\nErro: todos os campos são obrigatórios.")
+        return
 
-    chamados.append(chamado)
-    salvar_chamados()
+    with conectar_banco() as conexao:
+        cursor = conexao.execute(
+            """
+            INSERT INTO chamados (
+                titulo,
+                descricao,
+                categoria,
+                prioridade,
+                status
+            )
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (
+                titulo,
+                descricao,
+                categoria,
+                prioridade,
+                "Aberto"
+            )
+        )
 
-    print("\nChamado criado e salvo com sucesso!")
+        id_chamado = cursor.lastrowid
+
+    print(f"\nChamado {id_chamado} criado com sucesso!")
 
 
 def listar_chamados():
     print("\n--- LISTA DE CHAMADOS ---")
+
+    with conectar_banco() as conexao:
+        chamados = conexao.execute(
+            """
+            SELECT
+                id,
+                titulo,
+                descricao,
+                categoria,
+                prioridade,
+                status,
+                data_criacao
+            FROM chamados
+            ORDER BY id
+            """
+        ).fetchall()
 
     if not chamados:
         print("Nenhum chamado cadastrado.")
@@ -68,7 +99,8 @@ def listar_chamados():
         print(f"Categoria: {chamado['categoria']}")
         print(f"Prioridade: {chamado['prioridade']}")
         print(f"Status: {chamado['status']}")
-        print("-" * 30)
+        print(f"Data de criação: {chamado['data_criacao']}")
+        print("-" * 40)
 
 
 def exibir_menu():
@@ -78,7 +110,7 @@ def exibir_menu():
         print("2 - Listar chamados")
         print("0 - Sair")
 
-        opcao = input("Escolha uma opção: ")
+        opcao = input("Escolha uma opção: ").strip()
 
         if opcao == "1":
             criar_chamado()
@@ -94,4 +126,5 @@ def exibir_menu():
             print("\nOpção inválida. Tente novamente.")
 
 
+criar_tabela()
 exibir_menu()
