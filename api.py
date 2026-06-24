@@ -9,34 +9,59 @@ from pydantic import BaseModel, Field
 CAMINHO_BANCO = Path(__file__).resolve().parent / "chamados.db"
 
 
+tags_metadata = [
+    {
+        "name": "Sistema",
+        "description": "Verificação do funcionamento da API."
+    },
+    {
+        "name": "Chamados",
+        "description": "Operações de criação, consulta, atualização e exclusão."
+    }
+]
+
+
 app = FastAPI(
     title="Sistema de Chamados de TI",
-    description="API REST para gerenciamento de chamados técnicos.",
-    version="1.0.0"
+    description=(
+        "API REST para gerenciamento de chamados técnicos, "
+        "desenvolvida com Python, FastAPI e SQLite."
+    ),
+    version="1.0.0",
+    openapi_tags=tags_metadata
 )
 
+
+# ============================================================
+# MODELOS DE ENTRADA
+# ============================================================
 
 class ChamadoCriacao(BaseModel):
     titulo: str = Field(
         min_length=3,
-        max_length=100
+        max_length=100,
+        examples=["Computador sem acesso à internet"]
     )
 
     descricao: str = Field(
         min_length=5,
-        max_length=500
+        max_length=500,
+        examples=["O computador não consegue acessar nenhum site."]
     )
 
     categoria: str = Field(
         min_length=3,
-        max_length=50
+        max_length=50,
+        examples=["Rede"]
     )
 
     prioridade: Literal[
         "Baixa",
         "Média",
         "Alta"
-    ]
+    ] = Field(
+        examples=["Alta"]
+    )
 
 
 class ChamadoStatusAtualizacao(BaseModel):
@@ -45,13 +70,58 @@ class ChamadoStatusAtualizacao(BaseModel):
         "Em andamento",
         "Resolvido",
         "Fechado"
-    ]
+    ] = Field(
+        examples=["Em andamento"]
+    )
 
+
+# ============================================================
+# MODELOS DE RESPOSTA
+# ============================================================
+
+class ChamadoResposta(BaseModel):
+    id: int
+    titulo: str
+    descricao: str
+    categoria: str
+    prioridade: Literal[
+        "Baixa",
+        "Média",
+        "Alta"
+    ]
+    status: Literal[
+        "Aberto",
+        "Em andamento",
+        "Resolvido",
+        "Fechado"
+    ]
+    data_criacao: str
+
+
+class MensagemResposta(BaseModel):
+    mensagem: str
+
+
+class ChamadoExcluido(BaseModel):
+    id: int
+    titulo: str
+
+
+class ExclusaoResposta(BaseModel):
+    mensagem: str
+    chamado_excluido: ChamadoExcluido
+
+
+class ErroResposta(BaseModel):
+    detail: str
+
+
+# ============================================================
+# BANCO DE DADOS
+# ============================================================
 
 def conectar_banco():
     conexao = sqlite3.connect(CAMINHO_BANCO)
-
-    # Permite acessar as colunas pelo nome.
     conexao.row_factory = sqlite3.Row
 
     return conexao
@@ -77,14 +147,34 @@ def criar_tabela():
 criar_tabela()
 
 
-@app.get("/")
+# ============================================================
+# ENDPOINT INICIAL
+# ============================================================
+
+@app.get(
+    "/",
+    response_model=MensagemResposta,
+    tags=["Sistema"],
+    summary="Verificar funcionamento da API",
+    description="Retorna uma mensagem indicando que a API está funcionando."
+)
 def inicio():
     return {
         "mensagem": "API do Sistema de Chamados de TI está funcionando."
     }
 
 
-@app.get("/chamados")
+# ============================================================
+# LISTAR CHAMADOS
+# ============================================================
+
+@app.get(
+    "/chamados",
+    response_model=list[ChamadoResposta],
+    tags=["Chamados"],
+    summary="Listar todos os chamados",
+    description="Retorna todos os chamados cadastrados no banco de dados."
+)
 def listar_chamados():
     with conectar_banco() as conexao:
         registros = conexao.execute(
@@ -105,7 +195,23 @@ def listar_chamados():
     return [dict(registro) for registro in registros]
 
 
-@app.get("/chamados/{id_chamado}")
+# ============================================================
+# BUSCAR CHAMADO POR ID
+# ============================================================
+
+@app.get(
+    "/chamados/{id_chamado}",
+    response_model=ChamadoResposta,
+    tags=["Chamados"],
+    summary="Buscar chamado por ID",
+    description="Retorna um chamado específico a partir do seu ID.",
+    responses={
+        404: {
+            "model": ErroResposta,
+            "description": "Chamado não encontrado."
+        }
+    }
+)
 def buscar_chamado(id_chamado: int):
     if id_chamado <= 0:
         raise HTTPException(
@@ -139,7 +245,18 @@ def buscar_chamado(id_chamado: int):
     return dict(registro)
 
 
-@app.post("/chamados", status_code=201)
+# ============================================================
+# CRIAR CHAMADO
+# ============================================================
+
+@app.post(
+    "/chamados",
+    response_model=ChamadoResposta,
+    status_code=201,
+    tags=["Chamados"],
+    summary="Criar novo chamado",
+    description="Cria um novo chamado técnico no banco de dados."
+)
 def criar_chamado(dados: ChamadoCriacao):
     titulo = dados.titulo.strip()
     descricao = dados.descricao.strip()
@@ -193,7 +310,26 @@ def criar_chamado(dados: ChamadoCriacao):
     return dict(registro)
 
 
-@app.patch("/chamados/{id_chamado}/status")
+# ============================================================
+# ATUALIZAR STATUS
+# ============================================================
+
+@app.patch(
+    "/chamados/{id_chamado}/status",
+    response_model=ChamadoResposta,
+    tags=["Chamados"],
+    summary="Atualizar status do chamado",
+    description=(
+        "Atualiza o status de um chamado para Aberto, "
+        "Em andamento, Resolvido ou Fechado."
+    ),
+    responses={
+        404: {
+            "model": ErroResposta,
+            "description": "Chamado não encontrado."
+        }
+    }
+)
 def atualizar_status_chamado(
     id_chamado: int,
     dados: ChamadoStatusAtualizacao
@@ -250,7 +386,24 @@ def atualizar_status_chamado(
 
     return dict(chamado_atualizado)
 
-@app.delete("/chamados/{id_chamado}")
+
+# ============================================================
+# EXCLUIR CHAMADO
+# ============================================================
+
+@app.delete(
+    "/chamados/{id_chamado}",
+    response_model=ExclusaoResposta,
+    tags=["Chamados"],
+    summary="Excluir chamado",
+    description="Exclui definitivamente um chamado do banco de dados.",
+    responses={
+        404: {
+            "model": ErroResposta,
+            "description": "Chamado não encontrado."
+        }
+    }
+)
 def excluir_chamado(id_chamado: int):
     if id_chamado <= 0:
         raise HTTPException(
