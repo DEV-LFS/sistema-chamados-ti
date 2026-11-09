@@ -76,6 +76,29 @@ class ChamadoStatusAtualizacao(BaseModel):
 
 
 # ============================================================
+# REGRAS DE TRANSICAO DE STATUS
+# ============================================================
+
+TRANSICOES_PERMITIDAS = {
+    "Aberto": {"Em andamento"},
+    "Em andamento": {"Resolvido"},
+    "Resolvido": {"Fechado"},
+    "Fechado": set()
+}
+
+
+def transicao_permitida(status_atual: str, novo_status: str) -> bool:
+    if status_atual == novo_status:
+        return True
+
+    proximos_status = TRANSICOES_PERMITIDAS.get(
+        status_atual,
+        set()
+    )
+
+    return novo_status in proximos_status
+
+# ============================================================
 # MODELOS DE RESPOSTA
 # ============================================================
 
@@ -320,16 +343,26 @@ def criar_chamado(dados: ChamadoCriacao):
     tags=["Chamados"],
     summary="Atualizar status do chamado",
     description=(
-        "Atualiza o status de um chamado para Aberto, "
-        "Em andamento, Resolvido ou Fechado."
+        "Atualiza o status de um chamado respeitando "
+        "o fluxo: Aberto -> Em andamento -> Resolvido "
+        "-> Fechado. Transições não permitidas "
+        "retornam HTTP 409 Conflict."
     ),
+
+    
     responses={
         404: {
             "model": ErroResposta,
             "description": "Chamado não encontrado."
+        },
+        409: {
+            "model": ErroResposta,
+            "description": "Transição de status não permitida."
         }
     }
+
 )
+
 def atualizar_status_chamado(
     id_chamado: int,
     dados: ChamadoStatusAtualizacao
@@ -343,7 +376,7 @@ def atualizar_status_chamado(
     with conectar_banco() as conexao:
         chamado_existente = conexao.execute(
             """
-            SELECT id
+            SELECT id, status
             FROM chamados
             WHERE id = ?
             """,
@@ -354,6 +387,20 @@ def atualizar_status_chamado(
             raise HTTPException(
                 status_code=404,
                 detail=f"Chamado com ID {id_chamado} não encontrado."
+            )
+
+        status_atual = chamado_existente["status"]
+
+        if not transicao_permitida(
+            status_atual,
+            dados.status
+        ):
+            raise HTTPException(
+                status_code=409,
+                detail=(
+                    "Transição de status não permitida: "
+                    f"'{status_atual}' para '{dados.status}'."
+                )
             )
 
         conexao.execute(
