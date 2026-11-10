@@ -4,6 +4,7 @@ from typing import Literal
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
+from status_rules import transicao_permitida
 
 
 CAMINHO_BANCO = Path(__file__).resolve().parent / "chamados.db"
