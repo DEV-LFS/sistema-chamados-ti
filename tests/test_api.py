@@ -159,3 +159,126 @@ def test_excluir_chamado(cliente):
     )
 
     assert resposta_busca.status_code == 404
+
+
+def test_impedir_reabertura_de_chamado_fechado(cliente):
+    chamado = criar_chamado_teste(cliente)
+
+    url = f"/chamados/{chamado['id']}/status"
+
+    for status in ("Em andamento", "Resolvido", "Fechado"):
+        resposta = cliente.patch(
+            url,
+            json={"status": status}
+        )
+
+        assert resposta.status_code == 200
+
+    resposta = cliente.patch(
+        url,
+        json={"status": "Aberto"}
+    )
+
+    assert resposta.status_code == 409
+
+    consulta = cliente.get(
+        f"/chamados/{chamado['id']}"
+    )
+
+    assert consulta.status_code == 200
+    assert consulta.json()["status"] == "Fechado"
+
+
+def test_impedir_salto_de_status(cliente):
+    chamado = criar_chamado_teste(cliente)
+
+    resposta = cliente.patch(
+        f"/chamados/{chamado['id']}/status",
+        json={
+            "status": "Fechado"
+        }
+    )
+
+    assert resposta.status_code == 409
+
+    consulta = cliente.get(
+        f"/chamados/{chamado['id']}"
+    )
+
+    assert consulta.status_code == 200
+    assert consulta.json()["status"] == "Aberto"
+
+
+def test_permitir_repeticao_do_mesmo_status(cliente):
+    chamado = criar_chamado_teste(cliente)
+
+    resposta = cliente.patch(
+        f"/chamados/{chamado['id']}/status",
+        json={
+            "status": "Aberto"
+        }
+    )
+
+    assert resposta.status_code == 200
+    assert resposta.json()["status"] == "Aberto"
+
+    consulta = cliente.get(
+        f"/chamados/{chamado['id']}"
+    )
+
+    assert consulta.status_code == 200
+    assert consulta.json()["status"] == "Aberto"
+
+
+@pytest.mark.parametrize(
+    "status_atual, novo_status",
+    [
+        ("Aberto", "Resolvido"),
+        ("Em andamento", "Aberto"),
+        ("Em andamento", "Fechado"),
+        ("Resolvido", "Aberto"),
+        ("Resolvido", "Em andamento"),
+        ("Fechado", "Em andamento"),
+        ("Fechado", "Resolvido")
+    ]
+)
+def test_rejeitar_transicoes_invalidas(
+    cliente,
+    status_atual,
+    novo_status
+):
+    chamado = criar_chamado_teste(cliente)
+    url = f"/chamados/{chamado['id']}/status"
+
+    caminhos = {
+        "Aberto": [],
+        "Em andamento": ["Em andamento"],
+        "Resolvido": ["Em andamento", "Resolvido"],
+        "Fechado": [
+            "Em andamento",
+            "Resolvido",
+            "Fechado"
+        ]
+    }
+
+    for status in caminhos[status_atual]:
+        resposta = cliente.patch(
+            url,
+            json={"status": status}
+        )
+
+        assert resposta.status_code == 200
+
+    resposta = cliente.patch(
+        url,
+        json={"status": novo_status}
+    )
+
+    assert resposta.status_code == 409
+
+    consulta = cliente.get(
+        f"/chamados/{chamado['id']}"
+    )
+
+    assert consulta.status_code == 200
+    assert consulta.json()["status"] == status_atual

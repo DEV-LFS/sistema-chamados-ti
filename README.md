@@ -1,246 +1,188 @@
-# Sistema de Chamados de TI
 
-API REST desenvolvida para gerenciamento de chamados técnicos de Tecnologia da Informação.
+<div align="center">
 
-O projeto permite criar, consultar, atualizar e excluir chamados, utilizando Python, FastAPI e SQLite. A API possui validação de dados, documentação automática com Swagger e testes automatizados com Pytest.
+# 🛠️ Sistema de Chamados de TI
 
-## Funcionalidades
+<img
+  src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=40C3D6&center=true&vCenter=true&width=850&lines=Sistema+de+Chamados+de+TI;Python+%7C+FastAPI+%7C+SQLite;API+REST+e+testes+automatizados;Evoluindo+para+uma+aplicacao+Full-stack"
+  alt="Apresentação animada do Sistema de Chamados de TI"
+/>
 
-* Criar chamados técnicos
-* Listar todos os chamados
-* Buscar chamado por ID
-* Atualizar o status de um chamado
-* Excluir chamados
-* Validar dados de entrada
-* Retornar erros HTTP apropriados
-* Documentar endpoints automaticamente com Swagger
-* Executar testes automatizados
+**Sistema para gerenciamento de chamados técnicos, desenvolvido como projeto de portfólio em Engenharia de Software.**
 
-## Tecnologias utilizadas
+[![Status](https://img.shields.io/badge/Status-Em_Desenvolvimento-40C3D6?style=for-the-badge)](https://github.com/DEV-LFS/sistema-chamados-ti)
+[![Testes](https://img.shields.io/badge/Testes_Locais-21_Aprovados-238636?style=for-the-badge&logo=pytest&logoColor=white)](https://github.com/DEV-LFS/sistema-chamados-ti)
+[![API](https://img.shields.io/badge/API-REST-0047F7?style=for-the-badge)](https://github.com/DEV-LFS/sistema-chamados-ti)
 
-* Python
-* FastAPI
-* Pydantic
-* SQLite
-* SQL
-* Uvicorn
-* Pytest
-* HTTPX
-* Git e GitHub
-* Swagger / OpenAPI
+</div>
 
-## Estrutura do projeto
+---
+
+## 📌 Sobre o projeto
+
+O **Sistema de Chamados de TI** é uma aplicação para registrar, consultar, acompanhar e gerenciar solicitações de suporte técnico.
+
+O projeto foi criado para aplicar, na prática, conceitos de **Engenharia de Software, desenvolvimento back-end, persistência de dados, APIs REST, validação de informações e testes automatizados**.
+
+Inicialmente desenvolvido como uma aplicação executada pelo terminal, o sistema evoluiu para utilizar banco de dados SQLite e uma API REST construída com FastAPI.
+
+O objetivo é continuar essa evolução até obter uma aplicação full-stack, com interface web integrada ao back-end.
+
+### 🎯 Objetivos
+
+- Desenvolver conhecimentos práticos em Python.
+- Aplicar conceitos de arquitetura e organização de software.
+- Implementar operações CRUD e APIs REST.
+- Trabalhar com bancos de dados relacionais.
+- Definir e validar regras de negócio.
+- Criar testes automatizados e documentar endpoints.
+- Evoluir gradualmente para uma aplicação full-stack.
+- Documentar a evolução do projeto no GitHub.
+
+> **Escopo atual:** projeto educacional e de portfólio. A API funciona localmente, mas ainda não possui autenticação, autorização de usuários ou preparação completa para uso em produção.
+
+---
+
+## 🚀 Tecnologias utilizadas
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Pydantic](https://img.shields.io/badge/Pydantic-E92063?style=for-the-badge&logo=pydantic&logoColor=white)
+![Pytest](https://img.shields.io/badge/Pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
+
+![OpenAPI](https://img.shields.io/badge/OpenAPI-6BA539?style=for-the-badge&logo=openapiinitiative&logoColor=white)
+![Uvicorn](https://img.shields.io/badge/Uvicorn-4051B5?style=for-the-badge)
+![HTTPX](https://img.shields.io/badge/HTTPX-35495E?style=for-the-badge)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+
+</div>
+
+| Tecnologia | Aplicação no projeto |
+|---|---|
+| Python | Linguagem principal |
+| FastAPI | Desenvolvimento da API REST |
+| SQLite | Persistência dos chamados |
+| SQL | Consultas e manipulação de dados |
+| Pydantic | Modelos e validação de dados |
+| Pytest | Execução dos testes automatizados |
+| HTTPX | Dependência utilizada nos testes da API |
+| Uvicorn | Servidor ASGI para execução local |
+| Swagger / OpenAPI | Documentação interativa dos endpoints |
+| Git / GitHub | Versionamento e histórico de evolução |
+
+---
+
+## ⚙️ Funcionalidades implementadas
+
+| Funcionalidade | Descrição | Situação |
+|---|---|---|
+| Criar chamado | Cadastra uma solicitação técnica | ✅ |
+| Listar chamados | Consulta os registros cadastrados | ✅ |
+| Buscar por ID | Localiza um chamado específico | ✅ |
+| Atualizar status | Modifica o estado de um chamado | ✅ |
+| Excluir chamado | Remove um registro | ✅ |
+| Persistência SQLite | Armazena os dados localmente | ✅ |
+| Validação de entrada na API | Verifica os dados recebidos | ✅ |
+| Regras de transição | Restringe mudanças de status | ✅ |
+| Tratamento HTTP | Retorna códigos apropriados | ✅ |
+| Swagger/OpenAPI | Documentação automática | ✅ |
+| Testes automatizados | Verificação da API e do terminal | ✅ |
+| Interface web | Interação visual pelo navegador | ⏳ |
+| Autenticação | Identificação de usuários | ⏳ |
+| Filtros e paginação | Consultas mais específicas | ⏳ |
+
+---
+
+## 🔄 Fluxo dos chamados
+
+Os chamados seguem um fluxo de estados definido pelas regras de negócio.
+
+```mermaid
+flowchart LR
+    A["Aberto"] --> B["Em andamento"]
+    B --> C["Resolvido"]
+    C --> D["Fechado"]
+
+    classDef etapa fill:#09318D,stroke:#40C3D6,color:#FFFFFF,stroke-width:2px;
+    class A,B,C,D etapa;
+```
+
+### Regras de transição
+
+| Status atual | Próximo status permitido |
+|---|---|
+| Aberto | Em andamento |
+| Em andamento | Resolvido |
+| Resolvido | Fechado |
+| Fechado | Nenhum novo estado |
+
+Regras adicionais:
+
+- É permitido solicitar novamente o status atual.
+- Saltos indevidos entre estados são bloqueados.
+- Chamados fechados não podem ser reabertos nessa versão.
+- A API retorna `HTTP 409 Conflict` para transições proibidas.
+- Transições rejeitadas não devem alterar o estado armazenado.
+
+As regras estão definidas em `status_rules.py`. A consolidação completa de sua utilização entre API e terminal está em revisão.
+
+---
+
+## 🗂️ Estrutura do código
 
 ```text
 sistema-chamados-ti/
+│
 ├── tests/
-│   └── test_api.py
+│   ├── test_api.py
+│   └── test_main.py
+│
 ├── .gitignore
 ├── api.py
 ├── main.py
-├── README.md
-└── requirements.txt
+├── status_rules.py
+├── requirements.txt
+└── README.md
 ```
 
-### Arquivos principais
+### Responsabilidade dos arquivos
 
-* `api.py`: API REST desenvolvida com FastAPI
-* `main.py`: versão do sistema executada pelo terminal
-* `tests/test_api.py`: testes automatizados da API
-* `requirements.txt`: dependências do projeto
-* `.gitignore`: arquivos e pastas ignorados pelo Git
+| Arquivo | Responsabilidade |
+|---|---|
+| `api.py` | Endpoints, modelos, validações e operações da API |
+| `main.py` | Interface interativa executada pelo terminal |
+| `status_rules.py` | Definição reutilizável das regras de transição |
+| `tests/test_api.py` | Testes automatizados da API REST |
+| `tests/test_main.py` | Testes automatizados do terminal |
+| `requirements.txt` | Dependências Python do projeto |
+| `.gitignore` | Exclusão de arquivos locais do versionamento |
+| `README.md` | Documentação do projeto |
 
-## Modelo de chamado
+O arquivo `chamados.db` é utilizado localmente e não é versionado.
 
-Cada chamado possui os seguintes campos:
+Ambientes virtuais, caches e arquivos temporários também são ignorados pelo Git.
 
-| Campo          | Tipo    | Descrição                                  |
-| -------------- | ------- | ------------------------------------------ |
-| `id`           | inteiro | Identificador único                        |
-| `titulo`       | texto   | Título do problema                         |
-| `descricao`    | texto   | Descrição detalhada                        |
-| `categoria`    | texto   | Categoria do chamado                       |
-| `prioridade`   | texto   | Baixa, Média ou Alta                       |
-| `status`       | texto   | Aberto, Em andamento, Resolvido ou Fechado |
-| `data_criacao` | texto   | Data e hora de criação                     |
+---
 
-## Endpoints
+## 🗄️ Modelo de dados
 
-| Método   | Endpoint                        | Descrição                          |
-| -------- | ------------------------------- | ---------------------------------- |
-| `GET`    | `/`                             | Verifica se a API está funcionando |
-| `GET`    | `/chamados`                     | Lista todos os chamados            |
-| `GET`    | `/chamados/{id_chamado}`        | Busca um chamado pelo ID           |
-| `POST`   | `/chamados`                     | Cria um novo chamado               |
-| `PATCH`  | `/chamados/{id_chamado}/status` | Atualiza o status                  |
-| `DELETE` | `/chamados/{id_chamado}`        | Exclui um chamado                  |
+O projeto utiliza uma tabela chamada `chamados`.
 
-## Exemplo de criação de chamado
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `id` | INTEGER | Identificador do chamado |
+| `titulo` | TEXT | Título da solicitação |
+| `descricao` | TEXT | Detalhamento do problema |
+| `categoria` | TEXT | Categoria do chamado |
+| `prioridade` | TEXT | Baixa, Média ou Alta |
+| `status` | TEXT | Estado atual |
+| `data_criacao` | TEXT | Data e horário de criação |
 
-Requisição:
-
-```http
-POST /chamados
-```
-
-Corpo JSON:
-
-```json
-{
-  "titulo": "Computador sem acesso à internet",
-  "descricao": "O computador não consegue acessar nenhum site.",
-  "categoria": "Rede",
-  "prioridade": "Alta"
-}
-```
-
-Resposta esperada:
-
-```json
-{
-  "id": 1,
-  "titulo": "Computador sem acesso à internet",
-  "descricao": "O computador não consegue acessar nenhum site.",
-  "categoria": "Rede",
-  "prioridade": "Alta",
-  "status": "Aberto",
-  "data_criacao": "2026-06-23 20:55:43"
-}
-```
-
-## Exemplo de atualização de status
-
-Requisição:
-
-```http
-PATCH /chamados/1/status
-```
-
-Corpo JSON:
-
-```json
-{
-  "status": "Em andamento"
-}
-```
-
-## Códigos HTTP utilizados
-
-| Código | Significado                    |
-| -----: | ------------------------------ |
-|  `200` | Operação realizada com sucesso |
-|  `201` | Chamado criado com sucesso     |
-|  `404` | Chamado não encontrado         |
-|  `422` | Dados enviados são inválidos   |
-
-## Como executar o projeto
-
-### 1. Clonar o repositório
-
-```bash
-git clone URL_DO_REPOSITORIO
-```
-
-Entre na pasta:
-
-```bash
-cd sistema-chamados-ti
-```
-
-### 2. Criar o ambiente virtual
-
-No Windows:
-
-```powershell
-py -m venv .venv
-```
-
-### 3. Ativar o ambiente virtual
-
-No PowerShell:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-Caso o PowerShell bloqueie a ativação:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
-
-Depois tente ativar novamente:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-### 4. Instalar as dependências
-
-```powershell
-python -m pip install -r requirements.txt
-```
-
-### 5. Executar a API
-
-```powershell
-python -m uvicorn api:app --reload
-```
-
-A API estará disponível em:
-
-```text
-http://127.0.0.1:8000
-```
-
-## Documentação Swagger
-
-Com a API em execução, acesse:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-A documentação alternativa ReDoc está disponível em:
-
-```text
-http://127.0.0.1:8000/redoc
-```
-
-## Executar os testes automatizados
-
-Na raiz do projeto:
-
-```powershell
-python -m pytest -v
-```
-
-Resultado esperado:
-
-```text
-8 passed
-```
-
-Os testes utilizam um banco SQLite temporário e não alteram o banco de desenvolvimento.
-
-## Testes implementados
-
-* Verificação do funcionamento da API
-* Criação de chamado
-* Listagem de chamados
-* Busca de chamado por ID
-* Busca de chamado inexistente
-* Atualização de status
-* Validação de status inválido
-* Exclusão de chamado
-
-## Banco de dados
-
-O projeto utiliza SQLite.
-
-A tabela `chamados` é criada automaticamente quando a aplicação é iniciada.
-
-Estrutura da tabela:
+### Estrutura SQL
 
 ```sql
 CREATE TABLE IF NOT EXISTS chamados (
@@ -254,34 +196,289 @@ CREATE TABLE IF NOT EXISTS chamados (
 );
 ```
 
-O arquivo local `chamados.db` não é enviado ao GitHub, pois está configurado no `.gitignore`.
+A tabela é criada automaticamente pela aplicação quando necessário.
 
-## Histórico de evolução
+---
 
-O projeto foi desenvolvido progressivamente:
+## 🌐 Endpoints da API
 
-1. Sistema de chamados executado no terminal
-2. Persistência de dados em arquivo JSON
-3. Migração para banco de dados SQLite
-4. Implementação de busca, atualização e exclusão
-5. Criação da API REST com FastAPI
-6. Documentação automática com Swagger
-7. Validação de dados com Pydantic
-8. Tratamento de erros HTTP
-9. Testes automatizados com Pytest
+A API disponibiliza seis endpoints.
 
-## Próximas melhorias
+| Método | Endpoint | Operação |
+|---|---|---|
+| GET | `/` | Verificar funcionamento |
+| GET | `/chamados` | Listar chamados |
+| GET | `/chamados/{id_chamado}` | Buscar chamado por ID |
+| POST | `/chamados` | Criar chamado |
+| PATCH | `/chamados/{id_chamado}/status` | Atualizar status |
+| DELETE | `/chamados/{id_chamado}` | Excluir chamado |
 
-* Separar o projeto em módulos
-* Implementar autenticação de usuários
-* Adicionar responsáveis pelos chamados
-* Adicionar filtros por prioridade, categoria e status
-* Implementar paginação
-* Utilizar PostgreSQL
-* Criar interface web
-* Executar deploy da API
-* Adicionar integração contínua com GitHub Actions
+### Exemplo: criar um chamado
 
-## Autor
+**Requisição:**
 
-Desenvolvido por Luis Felipe como projeto de portfólio durante a graduação em Ciência da Computação.
+```http
+POST /chamados
+Content-Type: application/json
+```
+
+**Corpo JSON:**
+
+```json
+{
+  "titulo": "Computador sem internet",
+  "descricao": "O computador não consegue acessar nenhum site.",
+  "categoria": "Rede",
+  "prioridade": "Alta"
+}
+```
+
+A API cadastra o chamado com status inicial `Aberto` e retorna o registro criado com HTTP 201.
+
+### Exemplo: atualizar o status
+
+**Requisição:**
+
+```http
+PATCH /chamados/1/status
+Content-Type: application/json
+```
+
+**Corpo JSON:**
+
+```json
+{
+  "status": "Em andamento"
+}
+```
+
+Se a transição for válida, o registro é atualizado e a API retorna HTTP 200.
+
+### Exemplo: transição proibida
+
+Caso um chamado esteja `Fechado` e seja solicitada sua alteração para `Aberto`, a API retorna:
+
+**HTTP 409 Conflict**
+
+```json
+{
+  "detail": "Transição de status não permitida: 'Fechado' para 'Aberto'."
+}
+```
+
+### Códigos HTTP
+
+| Código | Significado |
+|---|---|
+| 200 | Operação concluída |
+| 201 | Chamado criado |
+| 404 | Chamado não encontrado |
+| 409 | Conflito nas regras de transição |
+| 422 | Erro de validação |
+
+---
+
+## 🧪 Testes automatizados
+
+O projeto utiliza Pytest para validar o comportamento das funcionalidades.
+
+<div align="center">
+
+![Testes](https://img.shields.io/badge/Pytest-21_Testes_Aprovados-238636?style=for-the-badge&logo=pytest&logoColor=white)
+
+</div>
+
+### Última execução local validada
+
+| Categoria | Casos aprovados |
+|---|---:|
+| API REST | 18 |
+| Interface de terminal | 3 |
+| **Total** | **21** |
+
+Os testes abrangem:
+
+- Funcionamento e operações CRUD da API.
+- Validação de dados e respostas HTTP.
+- Atualização válida de status.
+- Bloqueio de reabertura de chamados fechados.
+- Rejeição de saltos de etapas.
+- Repetição do mesmo status.
+- Sete casos parametrizados de transições inválidas.
+- Validação de transições na interface de terminal.
+
+Os testes utilizam bancos SQLite temporários, evitando modificar o banco principal.
+
+> Os 21 testes foram aprovados localmente. A execução automática por GitHub Actions ainda não foi implementada.
+
+### Executar os testes
+
+No terminal, dentro da pasta do projeto:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -v
+```
+
+Para executar somente os testes da API:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/test_api.py -v
+```
+
+Para executar somente os testes do terminal:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/test_main.py -v
+```
+
+---
+
+## 💻 Como executar o projeto
+
+### Pré-requisitos
+
+- Python instalado.
+- Git instalado.
+- Terminal ou PowerShell.
+- Editor de código, como VS Code.
+
+### 1. Clonar o repositório
+
+```powershell
+git clone https://github.com/DEV-LFS/sistema-chamados-ti.git
+cd sistema-chamados-ti
+```
+
+Enquanto o Pull Request de transições estiver em desenvolvimento, utilize a branch:
+
+```powershell
+git switch feature/status-transitions
+```
+
+### 2. Criar o ambiente virtual
+
+```powershell
+py -m venv .venv
+```
+
+### 3. Instalar as dependências
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+### 4. Iniciar a API REST
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn api:app --reload
+```
+
+A API estará disponível em:
+
+`http://127.0.0.1:8000`
+
+### 5. Acessar a documentação
+
+**Swagger UI:**
+
+`http://127.0.0.1:8000/docs`
+
+**ReDoc:**
+
+`http://127.0.0.1:8000/redoc`
+
+### 6. Executar a versão de terminal
+
+Em outro terminal, na pasta do projeto:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+O menu permite criar, listar, consultar, atualizar e excluir chamados.
+
+---
+
+## 📈 Histórico de evolução
+
+O desenvolvimento foi realizado progressivamente.
+
+| Etapa | Evolução |
+|---|---|
+| 1 | Criação do sistema executado pelo terminal |
+| 2 | Persistência inicial em arquivo JSON |
+| 3 | Migração para SQLite |
+| 4 | Implementação das operações CRUD |
+| 5 | Criação da API REST com FastAPI |
+| 6 | Documentação Swagger/OpenAPI |
+| 7 | Validação de dados com Pydantic |
+| 8 | Implementação de testes com Pytest |
+| 9 | Criação de regras de transição de status |
+| 10 | Testes de transições inválidas e HTTP 409 |
+| 11 | Integração das regras à versão de terminal |
+| 12 | Expansão da suíte para 21 testes locais |
+
+### Desenvolvimento incremental
+
+O objetivo não é apenas apresentar uma aplicação funcionando, mas registrar decisões, melhorias, testes e correções durante sua evolução.
+
+O histórico de commits e Pull Requests documenta esse processo.
+
+---
+
+## 🧭 Próximas melhorias
+
+### Back-end
+
+- [ ] Finalizar a centralização das regras de negócio.
+- [ ] Refatorar fixtures dos testes.
+- [ ] Ampliar validações de entrada no terminal.
+- [ ] Revisar consistência das atualizações concorrentes.
+- [ ] Implementar filtros por categoria, prioridade e status.
+- [ ] Adicionar paginação à listagem.
+- [ ] Avaliar autenticação e permissões.
+- [ ] Implementar integração contínua com GitHub Actions.
+
+### Front-end
+
+- [ ] Estruturar a interface web.
+- [ ] Criar dashboard de chamados.
+- [ ] Implementar formulário de abertura.
+- [ ] Exibir listagem e detalhes dos chamados.
+- [ ] Integrar as ações à API REST.
+- [ ] Adicionar indicadores e filtros.
+- [ ] Implementar feedback visual de erros e validações.
+
+### Evoluções futuras
+
+- [ ] Avaliar migração para PostgreSQL.
+- [ ] Preparar o deploy.
+- [ ] Documentar a arquitetura full-stack.
+- [ ] Adicionar demonstração visual do sistema.
+
+---
+
+## 👨‍💻 Autor
+
+**Luis Felipe Sebastião**
+
+Estudante de **Ciência da Computação na Faculdade Impacta de Tecnologia**, com foco em desenvolvimento back-end e Engenharia de Software.
+
+Este projeto está sendo desenvolvido como parte da minha evolução técnica e construção de portfólio profissional.
+
+<div align="center">
+
+[![GitHub](https://img.shields.io/badge/GitHub-DEV--LFS-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/DEV-LFS)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Luis_Felipe-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/luis-felipe-sebastiao/)
+[![Portfólio](https://img.shields.io/badge/Portfolio-Acessar-0047F7?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-dev-lfs.vercel.app/)
+
+---
+
+<img
+  src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=3500&pause=1200&color=40C3D6&center=true&vCenter=true&width=700&lines=Desenvolvimento+incremental;Codigo%2C+testes+e+evolucao+continua"
+  alt="Mensagem animada de encerramento"
+/>
+
+**Projeto em desenvolvimento contínuo.**
+
+</div>

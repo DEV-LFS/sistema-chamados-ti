@@ -1,5 +1,6 @@
 import sqlite3
 from pathlib import Path
+from status_rules import transicao_permitida
 
 
 CAMINHO_BANCO = Path(__file__).resolve().parent / "chamados.db"
@@ -194,10 +195,23 @@ def atualizar_status():
         "4": "Fechado"
     }
 
+    
     novo_status = status_disponiveis.get(opcao)
 
     if novo_status is None:
         print("\nOpção de status inválida.")
+        return
+
+    status_atual = chamado["status"]
+
+    if not transicao_permitida(
+        status_atual,
+        novo_status
+    ):
+        print(
+            "\nErro: transição de status não permitida "
+            f"de '{status_atual}' para '{novo_status}'."
+        )
         return
 
     with conectar_banco() as conexao:
@@ -209,6 +223,12 @@ def atualizar_status():
             """,
             (novo_status, id_chamado)
         )
+
+    print(
+        f"\nStatus do chamado {id_chamado} "
+        f"atualizado para '{novo_status}'."
+    )
+
 
     print(
         f"\nStatus do chamado {id_chamado} "
